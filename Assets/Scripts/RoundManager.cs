@@ -28,10 +28,10 @@ public class RoundManager : MonoBehaviour
     {
         roundCount = 0;
         allTypes = new List<List<int>> {spades, hearts, diamonds, clubs };
-        foreach (var card in handCards)
-        {
-            card.SetActive(false);
-        }
+        // foreach (var card in handCards)
+        // {
+        //     card.SetActive(false);
+        // }
 
         foreach (var card in tableCards)
         {
@@ -83,11 +83,13 @@ public class RoundManager : MonoBehaviour
 
     void ShowCards()
     {
-        foreach (var card in handCards)
-        {
-            card.SetActive(true);
-            StartCoroutine(SetRCard(card));
-        }
+        
+        // Show eveyone's cards
+        // foreach (var card in handCards)
+        // {
+        //     card.SetActive(true);
+        //     StartCoroutine(SetRCard(card));
+        // }
     }
 
     IEnumerator SetRCard(GameObject card)
