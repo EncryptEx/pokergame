@@ -83,15 +83,29 @@ public class RoundManager : MonoBehaviour
 
     void ShowCards()
     {
-        handCards[0].SetActive(true);
-        handCards[1].SetActive(true);
+        foreach (var card in handCards)
+        {
+            card.SetActive(true);
+            StartCoroutine(SetRCard(card));
+        }
     }
 
     IEnumerator SetRCard(GameObject card)
     {
-        var newType = allTypes[Random.Range(0, allTypes.Count)];
-        int newVal = newType[Random.Range(0, newType.Count)];
+        int tindex = Random.Range(0, allTypes.Count);
+        var newType = allTypes[tindex];
+        int index = Random.Range(0, newType.Count);
+        int newVal = newType[index];
+        // remove the card from the array to prevent duplicate cards
+        allTypes[tindex].RemoveAt(index);
 
+        // check if suit is empty due to excesive players an massive discart (see prev line)
+        if (newType.Count == 0)
+        {
+            allTypes.RemoveAt(tindex);
+            StartCoroutine(SetRCard(card));
+        }
+        
         CardManager cm = card.GetComponent<CardManager>();
         // set new val to card
         cm.cardIndex = newVal;
@@ -118,5 +132,10 @@ public class RoundManager : MonoBehaviour
         cm.isHidden = false;
         StartCoroutine(cm.UpdateCardDisplay());
         yield return null;
+    }
+
+    public void IncrementRound()
+    {
+        roundCount++;
     }
 }
